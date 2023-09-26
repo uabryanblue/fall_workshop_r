@@ -50,4 +50,24 @@ biscoe_data_means_imperial_3 <- biscoe_data_means_imperial |>
            ends_with("in") |
            ends_with("lb")))
 
+#########
+# create a function
+my_function <- function() {
+ return("I need coffee!") 
+}
+# call the function, output to console
+my_function()
+
+# fav_bev parameter with default with "coffee"
+# "paste0()" no spaces between elements,"paste()" will put in spaces
+my_function2 <- function(fav_bev = "coffee") {
+  what_to_say <- paste0("I need ", fav_bev, "!")
+  return(what_to_say) 
+}
+# say tea
+my_function2("tea")
+# default to say coffee
+my_function2()
+
+
 
