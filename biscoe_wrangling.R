@@ -31,7 +31,9 @@ biscoe_data_means <- biscoe_data |>
 # create a new name with what was there but add "_in"
 # ~ formula, . original and function 
 biscoe_data_means_imperial <- biscoe_data_means |>
-  mutate(across(ends_with("mm"), ~ . *0.03937008, .names = "{.col}_in"))
+  mutate(across(ends_with("mm"), ~ . *0.03937008, .names = "{.col}_in")) |>
+  mutate(across(ends_with("g"), ~ . *0.002204623, .names = "{.col}_lb"))
+  
 
 # rename column name, rename(new, existing)
 biscoe_data_means_imperial <- biscoe_data_means_imperial |>
@@ -42,5 +44,10 @@ biscoe_data_means_imperial <- biscoe_data_means_imperial |>
   rename_with(~stringr::str_replace(., "mm_in", "in"), .cols = ends_with("mm_in")) |>
   rename_with(~stringr::str_replace(., "g_lb", "lb"), .cols = ends_with("g_lb"))
 
+
+biscoe_data_means_imperial_3 <- biscoe_data_means_imperial |>
+  select(c(where(is.character) |
+           ends_with("in") |
+           ends_with("lb")))
 
 
