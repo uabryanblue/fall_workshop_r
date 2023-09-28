@@ -70,4 +70,50 @@ my_function2("tea")
 my_function2()
 
 
+my_function3 <- function(data_url = "https://github.com/cct-datascience/repro-data-sci/raw/r-lessons/lessons/7-intermediate-r-1/lesson-data/Biscoe.csv") {
+  island_dat <- read.csv(data_url) 
+  island_dat <- island_dat |>
+    na.omit()
+  
+  return(island_dat)  
+}
+
+# call with default function value
+func_out <- my_function3()
+# call with a new file with other data
+func_out2 <- my_function3("https://github.com/cct-datascience/repro-data-sci/raw/r-lessons/lessons/7-intermediate-r-1/lesson-data/Torgersen.csv")
+
+
+my_function4 <- function(data_url = "https://github.com/cct-datascience/repro-data-sci/raw/r-lessons/lessons/7-intermediate-r-1/lesson-data/Biscoe.csv") {
+  biscoe_data <- read.csv(data_url) 
+  # remove all na information
+  biscoe_data <- biscoe_data |>
+    na.omit()
+
+  # summarize by all columns end with "mm" or "g", or is '|'
+  biscoe_data_means <- biscoe_data |>
+    group_by(species, sex) |>
+    summarise(across(ends_with("mm") | ends_with("g"), mean))
+  
+  biscoe_data_means_imperial <- biscoe_data_means |>
+    mutate(across(ends_with("mm"), ~ . *0.03937008, .names = "{.col}_in")) |>
+    mutate(across(ends_with("g"), ~ . *0.002204623, .names = "{.col}_lb"))
+  
+  # rename all "in" to "mm_in" and all "lb" to "g_lb"
+  biscoe_data_means_imperial <- biscoe_data_means_imperial |>
+    rename_with(~stringr::str_replace(., "mm_in", "in"), .cols = ends_with("mm_in")) |>
+    rename_with(~stringr::str_replace(., "g_lb", "lb"), .cols = ends_with("g_lb"))
+  
+  biscoe_data_means_imperial_3 <- biscoe_data_means_imperial |>
+    select(c(where(is.character) |
+               ends_with("in") |
+               ends_with("lb")))
+  
+  return(biscoe_data_means_imperial_3)  
+  
+  }
+
+t <- my_function4()
+d <- my_function4("https://github.com/cct-datascience/repro-data-sci/raw/r-lessons/lessons/7-intermediate-r-1/lesson-data/Biscoe.csv")
+e <- my_function4("https://github.com/cct-datascience/repro-data-sci/raw/r-lessons/lessons/7-intermediate-r-1/lesson-data/Torgersen.csv")
 
