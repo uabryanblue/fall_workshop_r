@@ -136,3 +136,13 @@ d <- my_function4(island_to_use = "Dream")
 b <- my_function4(island_to_use = "Biscone")
 t <- my_function4(island_to_use = "Torgersen")
 t <- my_function4(island_to_use = "Torgerson") # error
+
+#### loops ####
+islands_we_want <- c("Biscone", "Torgersen", "Dream")
+cleaned_data <- list()
+
+for (i in 1:3) {
+  # print(islands_we_want[i])
+  # [[]] elements of lists
+  cleaned_data[[i]] <- my_function4(islands_we_want[i])
+}
